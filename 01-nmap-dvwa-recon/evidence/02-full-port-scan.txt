@@ -1,0 +1,11 @@
+$ nmap -p- dvwa
+Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-17 04:21 +0000
+Nmap scan report for dvwa (172.18.0.2)
+Host is up (0.0000040s latency).
+rDNS record for 172.18.0.2: dvwa.lab
+Not shown: 65534 closed tcp ports (reset)
+PORT   STATE SERVICE
+80/tcp open  http
+MAC Address: 1E:24:19:1C:08:EC (Unknown)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.53 seconds

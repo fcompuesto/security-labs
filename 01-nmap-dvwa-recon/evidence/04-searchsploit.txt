@@ -1,0 +1,32 @@
+$ searchsploit apache 2.4.25
+
+Note: the Exploit Title column is truncated, as displayed in the terminal at the time.
+
+Exploit Title                                        |  Path
+-----------------------------------------------------|----------------------------
+Apache + PHP < 5.3.12 / < 5.4.2 - cgi-bin Rem        | php/remote/29290.c
+Apache + PHP < 5.3.12 / < 5.4.2 - Remote Code        | php/remote/29316.py
+Apache 2.4.17 < 2.4.38 - 'apache2ctl graceful        | linux/local/46676.php
+Apache < 2.2.34 / < 2.4.27 - OPTIONS Memory L        | linux/webapps/42745.py
+Apache CXF < 2.5.10/2.6.7/2.7.4 - Denial of S        | multiple/dos/26710.txt
+Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuck.c'        | unix/remote/21671.c
+Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuckV2.        | unix/remote/47080.c
+Apache mod_ssl < 2.8.7 OpenSSL - 'OpenFuckV2.        | unix/remote/764.c
+Apache OpenMeetings 1.9.x < 3.1.0 - '.ZIP' Fi        | linux/webapps/39642.txt
+Apache Tomcat < 5.5.17 - Remote Directory Lis        | multiple/remote/2061.txt
+Apache Tomcat < 6.0.18 - 'utf8' Directory Tra        | multiple/remote/6229.txt
+Apache Tomcat < 6.0.18 - 'utf8' Directory Tra        | unix/remote/14489.c
+Apache Tomcat < 9.0.1 (Beta) / < 8.5.23 / < 8        | jsp/webapps/42966.py
+Apache Tomcat < 9.0.1 (Beta) / < 8.5.23 / < 8        | windows/webapps/42953.txt
+Apache Xerces-C XML Parser < 3.1.2 - Denial o        | linux/dos/36906.txt
+Webfroot Shoutbox < 2.32 (Apache) - Local Fil        | linux/remote/34.pl
+Shellcodes: No Results
+
+Relevant to Apache httpd 2.4.25 by version range:
+  - linux/local/46676.php   (2.4.17 < 2.4.38, local privilege escalation)
+  - linux/webapps/42745.py  (< 2.4.27, OPTIONS memory leak)
+Not tested. See the README for why a version match is only a lead.
+
+$ curl -s http://dvwa/robots.txt
+User-agent: *
+Disallow: /
