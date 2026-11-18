@@ -25,3 +25,25 @@ $ curl -s http://dvwa/php.ini
 magic_quotes_gpc = Off
 allow_url_fopen on
 allow_url_include on
+
+$ curl -s http://dvwa/config/config.inc.php.dist | grep -n "db_"
+4:# try changing the 'db_server' variable from localhost to 127.0.0.1. Fixes a problem due to sockets.
+12:#   WARNING: The database specified under db_database WILL BE ENTIRELY DELETED during setup.
+18:$_DVWA[ 'db_server' ]   = '127.0.0.1';
+19:$_DVWA[ 'db_database' ] = 'dvwa';
+20:$_DVWA[ 'db_user' ]     = 'root';
+21:$_DVWA[ 'db_password' ] = 'p@ssw0rd';
+24:$_DVWA[ 'db_port '] = '5432';
+
+(The password above is the published DVWA default, not a secret of mine.)
+
+$ curl -s http://dvwa/config/config.inc.php.dist      (tail of the output, as displayed)
+$_DVWA[ 'recaptcha_public_key' ]  = '';
+$_DVWA[ 'recaptcha_private_key' ] = '';
+$_DVWA[ 'default_security_level' ] = 'impossible';
+$_DVWA[ 'default_phpids_level' ] = 'disabled';
+$_DVWA[ 'default_phpids_verbose' ] = 'false';
+?>
+
+$ curl -s http://dvwa/config/config.inc.php | wc -c
+0
