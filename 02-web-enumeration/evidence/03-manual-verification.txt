@@ -1,0 +1,27 @@
+Manual verification with curl from the Kali container, 2026-11-17.
+
+NOTE: Transcribed from terminal captures taken at the time. The /config/ HTML is
+trimmed to the listing rows.
+
+$ curl -s http://dvwa/config/
+<title>Index of /config</title>
+<h1>Index of /config</h1>
+  Name                      Last modified        Size
+  Parent Directory                                  -
+  config.inc.php            2018-10-12 17:44     1.8K
+  config.inc.php.dist       2018-10-12 17:44     1.8K
+<address>Apache/2.4.25 (Debian) Server at dvwa Port 80</address>
+
+$ curl -s http://dvwa/.gitignore
+config/config.inc.php
+Dockerfile
+
+# Vim swap files
+.*swp
+
+$ curl -s http://dvwa/php.ini
+; This file attempts to overwrite the original php.ini file. Doesnt always work.
+
+magic_quotes_gpc = Off
+allow_url_fopen on
+allow_url_include on
