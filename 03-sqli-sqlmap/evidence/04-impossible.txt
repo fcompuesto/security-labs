@@ -1,0 +1,25 @@
+$ sqlmap -u "http://dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" \
+  --cookie="PHPSESSID=cg4occ5ghssjddocj64ggoff24; security=impossible" \
+  --batch --dbs | tee impossible.txt
+
+[02:08:37] [INFO] testing connection to the target URL
+got a 302 redirect to 'http://dvwa/vulnerabilities/sqli/index.php'. Do you
+want to follow? [Y/n] Y
+[02:08:38] [WARNING] GET parameter 'id' does not appear to be dynamic
+[02:08:38] [WARNING] heuristic (basic) test shows that GET parameter 'id'
+might not be SQL injectable
+(tests default boolean-based, error-based, stacked-query, time-based, and
+UNION techniques at --level 1 --risk 1)
+[02:08:39] [WARNING] GET parameter 'id' does not seem to be injectable
+[02:08:39] [WARNING] GET parameter 'Submit' does not seem to be injectable
+[02:08:40] [CRITICAL] all tested parameters do not appear to be injectable.
+Try to increase values for '--level'/'--risk' options if you wish to perform
+more tests. If you suspect that there is some kind of protection mechanism
+involved (e.g. WAF) maybe you could try to use option '--tamper' (e.g.
+'--tamper=space2comment') and/or switch '--random-agent'
+
+Result: not injectable. Notably, the request to the ?id=1 URL itself was
+302-redirected back to the plain index page before any injection test ran --
+a behavior not seen at Low, Medium, or High. This suggests the id parameter
+is validated and rejected (or ignored) outright when it is not a clean
+integer, before the query is ever built.

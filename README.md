@@ -6,6 +6,7 @@ Hands-on cybersecurity labs run in isolated environments that I own. Each lab ha
 | --- | --- | --- |
 | [01: Nmap reconnaissance of DVWA](01-nmap-dvwa-recon/) | Host discovery, port scanning, service and version detection, exploit matching | Nmap, searchsploit, Kali Linux, Docker |
 | [02: Web enumeration of DVWA](02-web-enumeration/) | Misconfiguration scanning, hidden directory and file discovery, security headers | Nikto, Gobuster, Kali Linux, Docker |
+| [03: SQL injection with sqlmap across DVWA security levels](03-sqli-sqlmap/) | SQL injection, database dumping, comparing input escaping vs. parameterized queries | sqlmap, Kali Linux, Docker |
 
 ## About
 
