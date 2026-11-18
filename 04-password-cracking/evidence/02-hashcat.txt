@@ -1,0 +1,46 @@
+$ apt install -y wordlists
+$ gunzip -k /usr/share/wordlists/rockyou.txt.gz
+$ wc -l /usr/share/wordlists/rockyou.txt
+14344385 /usr/share/wordlists/rockyou.txt
+
+$ hashcat -m 0 -a 0 hashes.txt /usr/share/wordlists/rockyou.txt --force
+
+hashcat (v7.1.2) starting
+
+OpenCL API (OpenCL 3.0 PoCL 7.1+debian  Linux, None+Asserts, RELOC, SPIR-V, LLVM 21.1.8, SLEEF, POCL_DEBUG) - Platform #1 [The pocl project]
+====================================================================
+* Device #1: cpu--0x000, 1919/3838 MB (1919 MB allocatable), 8MCU
+
+Hashes: 5 digests; 4 unique digests, 1 unique salts
+Rules: 1
+
+e99a18c428cb38d5f260853678922e03:abc123
+0d107d09f5bbe40cade3de5c71e9eb7:letmein
+8d3533d75ae2c3966d7e0d4fcc69216b:charley
+
+Session..........: hashcat
+Status...........: Cracked
+Hash.Mode........: 0 (MD5)
+Hash.Target......: hashes.txt
+Time.Started.....: Wed Nov 18 02:48:31 2026, (0 secs)
+Time.Estimated...: Wed Nov 18 02:48:50 2026, (0 secs)
+Kernel.Feature...: Pure Kernel (password length 0-256 bytes)
+Guess.Base.......: File (/usr/share/wordlists/rockyou.txt)
+Guess.Queue......: 1/1 (100.00%)
+Speed.#01........:   134.4 kH/s (0.40ms) @ Accel:1024 Loops:1 Thr:1 Vec:4
+Recovered........: 4/4 (100.00%) Digests (total), 4/4 (100.00%) Digests (new)
+Progress.........: 8192/14344385 (0.06%)
+Rejected.........: 0/8192 (0.00%)
+Restore.Point....: 0/14344385 (0.00%)
+Restore.Sub.#01..: Salt:0 Amplifier:0-1 Iteration:0-1
+Candidate.Engine.: Device Generator
+Candidates.#01...: 123456 -> whitetiger
+
+Started: Wed Nov 18 02:48:31 2026
+Stopped: Wed Nov 18 02:48:51 2026
+
+$ hashcat -m 0 hashes.txt --show
+5f4dcc3b5aa765d61d8327deb882cf99:password
+e99a18c428cb38d5f260853678922e03:abc123
+8d3533d75ae2c3966d7e0d4fcc69216b:charley
+0d107d09f5bbe40cade3de5c71e9eb7:letmein
